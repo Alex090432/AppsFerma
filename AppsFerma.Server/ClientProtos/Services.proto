@@ -1,0 +1,40 @@
+syntax="proto3";
+
+package CadFermaHub.MicroserviceServer;
+
+import "ClientProtos/Microservice.proto";
+import "SharedProtos/Request.proto";
+import "SharedProtos/Responce.proto";
+import "google/protobuf/empty.proto";
+
+service ApiService {
+    rpc SetMicroservice(Microservice) returns (SetMicroserviceResponse);
+  
+    rpc GetMicroservices(google.protobuf.Empty) returns (GetMicroserviceResponse);
+  
+    rpc EditMicroservice(Microservice) returns (EditMicroserviceResponse);
+  
+    rpc DeleteMicroservice(DeleteMicroserviceRequest) returns (DeleteMicroserviceResponse);
+
+    rpc SendRequest(Request) returns (Response);
+  }
+
+  message SetMicroserviceResponse {
+    bool success = 1; 
+}
+
+message EditMicroserviceResponse {
+    bool success = 1; 
+}
+
+message GetMicroserviceResponse {
+    repeated Microservice microservices = 1; 
+}
+
+message DeleteMicroserviceRequest {
+    string id = 1; 
+}
+
+message DeleteMicroserviceResponse {
+    bool success = 1; 
+}

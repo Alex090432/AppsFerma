@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package CadFermaHub.MicroserviceServer;
+
+import "SharedProtos/Enums.proto";
+import "SharedProtos/Data.proto";
+
+message Request {
+    string microservice_guid = 1; 
+    Data data = 2; 
+    HttpMethod http_methods = 3; 
+    string params = 4; 
+}
