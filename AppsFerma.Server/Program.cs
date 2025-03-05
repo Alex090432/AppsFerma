@@ -1,6 +1,5 @@
 using AppsFerma.Server.WorkWithHub;
 using AppsFerma.Server;
-using AppsFerma.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +9,18 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<IHubConnection, HubConnection>();
-builder.Services.AddSingleton<IMicroservicesService, MicroservicesService>();
-builder.Services.AddHostedService<StartupService>();
+
+
+// Добавляем CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -24,8 +33,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors(); // Перемещаем CORS перед HTTPS
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
